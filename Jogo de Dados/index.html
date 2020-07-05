@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Jogo de Dados</title>
+    <link rel="shortcut icon" href="dice.svg">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <style>
+        body {
+            background-color: rgba(112, 128, 144, 0.76);
+        }
+        
+       /* .jogo {
+            background-color: #DCDCDC;
+            margin: 5%;
+            margin-left: 2%;
+            border-radius: 10px 35;
+        }*/
+        .principal {
+            position: relative;
+            top: 75px;
+            width: 675px;
+            height: 625px;
+            border:5px solid rgba(255, 255, 0, 0.678);
+            border-radius: 10px 35px;
+            padding: 35px;
+            margin: 0 auto;
+            background: url('dice.svg');
+            background-size: 100%;          
+        }
+        #transparencia {
+            background-color: rgba(112, 128, 144,0.5);
+            color: rgba(0, 253, 253, 0.808);
+
+        }
+        .titulo{
+            color: rgba(255, 255, 0, 0.801) ;
+        }
+        .card {
+            max-width: 70%;
+        }
+        
+        .card-body {
+            max-width: 200px;
+            margin: 3%;
+            margin-left: 3%;
+            border-radius: 10px 35;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="principal">
+        <div class="container-fluid" style="max-width: 800px;">
+
+            <div class="container">
+                <div class="menu-jogo">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-md-8" style="margin-left: 28%; padding: 2%;">
+                                <h1 class="titulo"> Jogo de Dados </h1>
+                            </div>
+                            <div class="col-md-8" style="margin-left: 28%;">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cadastrarPlayer"> Cadastrar Jogador </button>
+
+
+                                <button type="button" class="btn btn-primary" onclick="reset()" style=" margin-left: 2px; "> Reset </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="container"  style= "padding: 5%;">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="container card" id="transparencia">
+                            <div class="card-body">
+                                <h4 id="totalPlayer1">Total: 0</h4>
+                                <img src="./img/dado1.png" class="card-img-top" alt="..." style="display: none;" id="player1Img1" />
+                                <img src="./img/dado2.png" class="card-img-top" alt="..." style="display: none;" id="player1Img2" />
+                                <img src="./img/dado3.png" class="card-img-top" alt="..." style="display: none;" id="player1Img3" />
+                                <img src="./img/dado4.png" class="card-img-top" alt="..." style="display: none;" id="player1Img4" />
+                                <img src="./img/dado5.png" class="card-img-top" alt="..." style="display: none;" id="player1Img5" />
+                                <img src="./img/dado6.png" class="card-img-top" alt="..." style="display: none;" id="player1Img6" />
+
+                                <h2 id="pointsPlayer1"></h2>
+                                <h4 id="namePlayer1">Player 1</h4>
+                                <button type="button" class="btn btn-primary btn-block" onclick="play(1)">
+                Jogar
+              </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="container card" id="transparencia">
+                            <div class="card-body">
+                                <h4 id="totalPlayer2">Total: 0</h4>
+                                <img src="./img/dado1.png" class="card-img-top" alt="..." style="display: none;" id="player2Img1" />
+                                <img src="./img/dado2.png" class="card-img-top" alt="..." style="display: none;" id="player2Img2" />
+                                <img src="./img/dado3.png" class="card-img-top" alt="..." style="display: none;" id="player2Img3" />
+                                <img src="./img/dado4.png" class="card-img-top" alt="..." style="display: none;" id="player2Img4" />
+                                <img src="./img/dado5.png" class="card-img-top" alt="..." style="display: none;" id="player2Img5" />
+                                <img src="./img/dado6.png" class="card-img-top" alt="..." style="display: none;" id="player2Img6" />
+
+                                <h2 id="pointsPlayer2"></h2>
+                                <h4 id="namePlayer2">Player 2</h4>
+                                <button type="button" class="btn btn-primary btn-block" onclick="play(2)">
+                Jogar
+              </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="cadastrarPlayer" tabindex="-1" role="dialog" aria-labelledby="cadastrarPlayerLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cadastrarPlayerLabel">
+                            Cadastrar Player
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addPlayers" name="addPlayers">
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="player1" />
+                                <label class="form-check-label" for="player1">Player 1</label
+                    >
+                  </div>
+                  <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="player2"/>
+                    <label class="form-check-label" for="player2">Player 2</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Nome</label>
+                                <input type="text" class="form-control" id="name" value="" placeholder="Preencha o Nome..." />
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                  Cancelar
+                </button>
+                        <button type="button" class="btn btn-primary" onclick="getForm()">
+                  Salvar
+                </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Scripts-->
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+            <script>
+                let players = [];
+                let game = [];
+                let isPlay = true;
+                var tot1 = 0;
+                var tot2 = 0;
+                var jog1 = "";
+                var jog2 = "";
+
+                function getForm(e) {
+
+                    const name = document.getElementById("name").value;
+                    const player1 = document.getElementById("player1").checked;
+                    const player2 = document.getElementById("player2").checked;
+                    const total = 10;
+                    let player = 1;
+
+                    if (player2) {
+                        player = 2;
+                        jog2 = name;
+                    }
+
+                    if (player1) {
+                        player = 1;
+                        jog1 = name;
+                    }
+
+                    players.push({
+                        name,
+                        player,
+                        total
+                    });
+                    cleanForm();
+                    console.log(players);
+                    for (let index = 0; index < players.length; index++) {
+                        if (players[index].player === 1) {
+                            document.getElementById("namePlayer1").innerHTML =
+                                players[index].name;
+
+                            document.getElementById("totalPlayer1").innerHTML =
+                                "Total: " + players[index].total;
+                        }
+
+                        if (players[index].player === 2) {
+                            document.getElementById("namePlayer2").innerHTML =
+                                players[index].name;
+
+                            document.getElementById("totalPlayer2").innerHTML =
+                                "Total: " + players[index].total;
+                        }
+                    }
+                }
+
+                function cleanForm() {
+                    document.getElementById("addPlayers").reset();
+                    $("#cadastrarPlayer").modal("hide");
+                }
+
+                // Função para jogar o dado;
+                function play(player) {
+                    if (!isPlay) return; { // Retorna se não for verdadeiro;
+                        const total = randGamePlay(); // função que gerar um numero aleatorio de 1 a 6;
+                        for (let index = 0; index < players.length; index++) {
+                            if (player === players[index].player) {
+                                if (game.length < 1) {
+                                    game.push({
+                                        player,
+                                        total
+                                    });
+                                } else {
+                                    game.push({
+                                        player,
+                                        total
+                                    });
+                                    decrementPlayers();
+                                }
+                            }
+                            console.log(game);
+                        }
+
+
+                        // Aplica na tela o resultado do dado;
+                        if (player === 1) {
+                            // document.getElementById("pointsPlayer1").innerHTML = total;
+                            addImg(player, total);
+                            tot1 = total;
+                        }
+
+                        if (player === 2) {
+                            // document.getElementById("pointsPlayer2").innerHTML = total;
+                            addImg(player, total);
+                            tot2 = total;
+                        }
+
+                        for (let i = 0; i < players.length; i++) { /*Aqui mostra quem perdeu*/
+
+                            if (players[i].total <= 0) {
+                                isPlay = false;
+                                alert("Acabou!");
+                                resultado();
+
+                            }
+                        }
+
+
+                    }
+                }
+
+                console.log(players);
+
+                function resultado() {
+                    if (tot1 > tot2) {
+                        alert(jog1 + " ganhou!")
+                        reset();
+
+                    } else if (tot1 > tot) {
+                        alert(jog2 + " ganhou!")
+                        reset();
+                    }
+                    window.location.reload()
+                    
+                }
+
+                
+
+                function addImg(player, total) {
+                    if (player === 1) {
+                        resetImgs(player);
+                        if (total === 1) {
+                            document.getElementById("player1Img1").style.display = "block";
+                        }
+
+                        if (total === 2) {
+                            document.getElementById("player1Img2").style.display = "block";
+                        }
+
+                        if (total === 3) {
+                            document.getElementById("player1Img3").style.display = "block";
+                        }
+
+                        if (total === 4) {
+                            document.getElementById("player1Img4").style.display = "block";
+                        }
+
+                        if (total === 5) {
+                            document.getElementById("player1Img5").style.display = "block";
+                        }
+
+                        if (total === 6) {
+                            document.getElementById("player1Img6").style.display = "block";
+                        }
+                    }
+
+                    if (player === 2) {
+                        resetImgs(player);
+                        if (total === 1) {
+                            document.getElementById("player2Img1").style.display = "block";
+                        }
+
+                        if (total === 2) {
+                            document.getElementById("player2Img2").style.display = "block";
+                        }
+
+                        if (total === 3) {
+                            document.getElementById("player2Img3").style.display = "block";
+                        }
+
+                        if (total === 4) {
+                            document.getElementById("player2Img4").style.display = "block";
+                        }
+
+                        if (total === 5) {
+                            document.getElementById("player2Img5").style.display = "block";
+                        }
+
+                        if (total === 6) {
+                            document.getElementById("player2Img6").style.display = "block";
+                        }
+                    }
+                }
+
+                function resetImgs(player) {
+                    if (player === 1) {
+                        document.getElementById("player1Img1").style.display = "none";
+                        document.getElementById("player1Img2").style.display = "none";
+                        document.getElementById("player1Img3").style.display = "none";
+                        document.getElementById("player1Img4").style.display = "none";
+                        document.getElementById("player1Img5").style.display = "none";
+                        document.getElementById("player1Img6").style.display = "none";
+                    }
+
+                    if (player === 2) {
+                        document.getElementById("player2Img1").style.display = "none";
+                        document.getElementById("player2Img2").style.display = "none";
+                        document.getElementById("player2Img3").style.display = "none";
+                        document.getElementById("player2Img4").style.display = "none";
+                        document.getElementById("player2Img5").style.display = "none";
+                        document.getElementById("player2Img6").style.display = "none";
+                    }
+                }
+
+                function randGamePlay() {
+                    let randPlay = Math.floor(Math.random() * 10);
+                    if (randPlay < 1 || randPlay > 6) {
+                        randPlay = randGamePlay();
+                    }
+
+                    return randPlay;
+                }
+
+                function decrementPlayers() {
+                    let isDecrement = null;
+                    if (game[0].total < game[1].total) {
+                        isDecrement = game[0];
+                    }
+
+                    if (game[0].total > game[1].total) {
+                        isDecrement = game[1];
+                    }
+
+                    if (game[0].total === game[1].total) {
+                        game = [];
+                        return;
+                    }
+
+                    for (let index = 0; index < players.length; index++) {
+                        if (players[index].player === isDecrement.player) {
+                            players[index].total = players[index].total - 1;
+
+                            if (players[index].player === 1) {
+                                document.getElementById("totalPlayer1").innerHTML =
+                                    "Total: " + players[index].total;
+                            }
+
+                            if (players[index].player === 2) {
+                                document.getElementById("totalPlayer2").innerHTML =
+                                    "Total: " + players[index].total;
+                            }
+                        }
+                    }
+
+
+
+                    game = [];
+                }
+
+
+
+                function reset() {
+                    let players = [];
+                    let game = [];
+                    let isPlay = true;
+                    document.getElementById("totalPlayer1").innerHTML = "Total: 0";
+                    document.getElementById("totalPlayer2").innerHTML = "Total: 0";
+                    document.getElementById("pointsPlayer1").innerHTML = "";
+                    document.getElementById("pointsPlayer2").innerHTML = "";
+                    document.getElementById("namePlayer1").innerHTML = "Player 1";
+                    document.getElementById("namePlayer2").innerHTML = "Player 2";
+                }
+            </script>
+</body>
+
+</html>
